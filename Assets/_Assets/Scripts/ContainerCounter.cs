@@ -1,39 +1,19 @@
 using UnityEngine;
+using System;
 
-public class ContainerCounter : MonoBehaviour, IKitchenObjectParent
+public class ContainerCounter : BaseCounter
 {
-    [SerializeField] private KitchenObjectSO _kitchenObjectSO;
-    [SerializeField] private Transform _counterTopPoint;
+    [SerializeField] protected KitchenObjectSO _kitchenObjectSO;
 
-    private KitchenObject _kitchenObject;
+    public event EventHandler OnPlayerGrabbedObject;
 
-    public void Interact(Player player)
+    public override void Interact(Player player)
     {
-        if (_kitchenObject == null)
+        if(!player.HasKitchenObject())
         {
-            Transform kitchenObjectTransform = Instantiate(_kitchenObjectSO.ObjectPrefab, _counterTopPoint);
-            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(this);
-            kitchenObjectTransform.localPosition = Vector3.zero;
-        }
-        else
-        {
-            _kitchenObject.SetKitchenObjectParent(player);
+            KitchenObject.SpawnKitchenObject(_kitchenObjectSO, player);
+
+            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
         }
     }
-
-    public void SetKitchenObject(KitchenObject kitchenObject)
-    {
-        _kitchenObject = kitchenObject;
-    }
-
-    public KitchenObject GetKitchenObject() => _kitchenObject;
-
-    public void ClearKitchenObject()
-    {
-        _kitchenObject = null;
-    }
-
-    public bool HasKitchenObject() => _kitchenObject != null ? true : false;
-
-    public Transform GetKitchenObjectFollowTransform() => _counterTopPoint;
 }

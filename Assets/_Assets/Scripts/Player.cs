@@ -13,14 +13,14 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private const float ROTATION_SPEED = 10f;
     private bool _isWalking;
     private Vector3 _lastInteractDirection;
-    private ClearCounter _selectedCounter;
+    private BaseCounter _selectedCounter;
     private KitchenObject _kitchenObject;
 
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
 
     public class OnSelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter selectedCounter;
+        public BaseCounter selectedCounter;
     }
 
     private void Awake()
@@ -33,10 +33,17 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void Start()
     {
-        _gameInput.OnInteractAction += _gameInput_OnInteractAction;
+        _gameInput.OnInteractAction += GameInput_OnInteractAction;
+        _gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
-    private void _gameInput_OnInteractAction(object sender, EventArgs e)
+    private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
+    {
+        if (_selectedCounter != null)
+            _selectedCounter.InteractAlternate(this);
+    }
+
+    private void GameInput_OnInteractAction(object sender, EventArgs e)
     {
         if (_selectedCounter != null)
             _selectedCounter.Interact(this);
@@ -58,10 +65,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         float playerRadius = .7f;
         float playerHeight = 2f;
         bool canMove = !Physics.CapsuleCast(transform.position,
-                                            transform.position + Vector3.up * playerHeight,
-                                            playerRadius,
-                                            moveDirection,
-                                            moveDistance);
+                                                transform.position + Vector3.up * playerHeight,
+                                                playerRadius,
+                                                moveDirection,
+                                                moveDistance);
 
         if (!canMove)
         {
@@ -69,7 +76,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
             // Attempt only X movement
             Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-            canMove = !Physics.CapsuleCast(transform.position,
+            canMove = moveDirection.x != 0 && !Physics.CapsuleCast(transform.position,
                                transform.position + Vector3.up * playerHeight,
                                playerRadius,
                                moveDirectionX,
@@ -86,7 +93,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
                 // Attempt only Z movement
                 Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
-                canMove = !Physics.CapsuleCast(transform.position,
+                canMove = moveDirection.z != 0 && !Physics.CapsuleCast(transform.position,
                                    transform.position + Vector3.up * playerHeight,
                                    playerRadius,
                                    moveDirectionZ,
@@ -122,10 +129,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         float interactDistance = 2f;
         if(Physics.Raycast(transform.position, _lastInteractDirection, out RaycastHit raycastHit, interactDistance, _counterLayerMask))
         {
-            if(raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if(raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
-                if (clearCounter != _selectedCounter)
-                    SetSelectedCounter(clearCounter);
+                if (baseCounter != _selectedCounter)
+                    SetSelectedCounter(baseCounter);
             }
             else
             {
@@ -138,7 +145,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         }
     }
 
-    private void SetSelectedCounter(ClearCounter selectedCounter)
+    private void SetSelectedCounter(BaseCounter selectedCounter)
     {
         _selectedCounter = selectedCounter;
         OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs
