@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1118333722902398607}
+  - component: {fileID: 6823113141350617171}
   m_Layer: 5
   m_Name: IconTemplate
   m_TagString: Untagged
@@ -37,6 +38,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6823113141350617171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902487243726957531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9591359937054ae78621c7671c89ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 1308195822514308239}
 --- !u!1 &2552264014358595687
 GameObject:
   m_ObjectHideFlags: 0
@@ -50,7 +64,8 @@ GameObject:
   - component: {fileID: 6734215952178197459}
   - component: {fileID: 2211585063007971446}
   - component: {fileID: 420343043248725454}
-  - component: {fileID: 3102682028844054137}
+  - component: {fileID: 6494587472599866177}
+  - component: {fileID: 2668270438866599664}
   m_Layer: 5
   m_Name: PlateIconsUI
   m_TagString: Untagged
@@ -165,7 +180,7 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &3102682028844054137
+--- !u!114 &6494587472599866177
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,10 +189,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 2552264014358595687}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fda194d8ac47545db91ae8da19cd6a91, type: 3}
+  m_Script: {fileID: 11500000, guid: 46763beef90284c8daf5e78e759d0105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mode: 2
+--- !u!114 &2668270438866599664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2552264014358595687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb35cb2de550e409db83cad9f2599a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _plateKitchenObject: {fileID: 1209257935543944962}
+  _iconTemplate: {fileID: 1118333722902398607}
 --- !u!1 &3526931762233699585
 GameObject:
   m_ObjectHideFlags: 0
