@@ -1282,6 +1282,8 @@ GameObject:
   m_Component:
   - component: {fileID: 120520565}
   - component: {fileID: 120520566}
+  - component: {fileID: 120520567}
+  - component: {fileID: 120520568}
   m_Layer: 5
   m_Name: GameStartCountdownUI
   m_TagString: Untagged
@@ -1299,7 +1301,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 585769808}
   m_Father: {fileID: 1733726624}
@@ -1322,6 +1324,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _countdownText: {fileID: 585769809}
+--- !u!95 &120520567
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120520564}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e1d1ed201b683418e82e26ba3e1ba26d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &120520568
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120520564}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &131058313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3423,6 +3458,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cdfb719be246490ea927ca20b12748d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveUpKeyText: {fileID: 1398291991}
+  _moveDownKeyText: {fileID: 1256261589}
+  _moveLeftKeyText: {fileID: 1062489212}
+  _moveRightKeyText: {fileID: 1588293070}
+  _interactKeyText: {fileID: 131058315}
+  _interactAlternateText: {fileID: 92263329}
+  _pauseText: {fileID: 1855199330}
+  _gamepadInteractKeyText: {fileID: 220368727}
+  _gamepadInteractAlternateText: {fileID: 1301291113}
+  _gamepadPauseText: {fileID: 1881351100}
 --- !u!1 &440011294
 GameObject:
   m_ObjectHideFlags: 0
