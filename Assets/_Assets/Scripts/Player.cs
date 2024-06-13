@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using Unity.Netcode;
+using System.Collections.Generic;
 
 public class Player : NetworkBehaviour, IKitchenObjectParent
 {
@@ -11,7 +12,9 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private LayerMask _counterLayerMask;
+    [SerializeField] private LayerMask _collisionsLayerMask;
     [SerializeField] private Transform _kitchenObjectHoldPoint;
+    [SerializeField] private List<Vector3> _spawnPositionList;
 
     private const float ROTATION_SPEED = 10f;
     private bool _isWalking;
@@ -45,6 +48,8 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         {
             LocalInstance = this;
         }
+
+        transform.position = _spawnPositionList[(int)OwnerClientId];
 
         OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
     }
@@ -84,12 +89,12 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
         float moveDistance = _moveSpeed * Time.deltaTime;
         float playerRadius = .7f;
-        float playerHeight = 2f;
-        bool canMove = !Physics.CapsuleCast(transform.position,
-                                                transform.position + Vector3.up * playerHeight,
-                                                playerRadius,
-                                                moveDirection,
-                                                moveDistance);
+        bool canMove = !Physics.BoxCast(transform.position,
+                                        Vector3.one * playerRadius,
+                                        moveDirection,
+                                        Quaternion.identity,
+                                        moveDistance,
+                                        _collisionsLayerMask);
 
         if (!canMove)
         {
@@ -97,11 +102,12 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
             // Attempt only X movement
             Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-            canMove = (moveDirection.x < -.5f || moveDirection.x > +.5f) && !Physics.CapsuleCast(transform.position,
-                               transform.position + Vector3.up * playerHeight,
-                               playerRadius,
-                               moveDirectionX,
-                               moveDistance);
+            canMove = (moveDirection.x < -.5f || moveDirection.x > +.5f) && !Physics.BoxCast(transform.position,
+                                                                                             Vector3.one * playerRadius,
+                                                                                             moveDirectionX,
+                                                                                             Quaternion.identity,
+                                                                                             moveDistance,
+                                                                                             _collisionsLayerMask);
 
             if (canMove)
             {
@@ -114,11 +120,12 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
                 // Attempt only Z movement
                 Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
-                canMove = (moveDirection.z < -.5f || moveDirection.z > +.5f) && !Physics.CapsuleCast(transform.position,
-                                   transform.position + Vector3.up * playerHeight,
-                                   playerRadius,
-                                   moveDirectionZ,
-                                   moveDistance);
+                canMove = (moveDirection.z < -.5f || moveDirection.z > +.5f) && !Physics.BoxCast(transform.position,
+                                                                                                 Vector3.one * playerRadius,
+                                                                                                 moveDirectionZ,
+                                                                                                 Quaternion.identity,
+                                                                                                 moveDistance,
+                                                                                                 _collisionsLayerMask);
                 if (canMove)
                 {
                     // Can move only on the Z
