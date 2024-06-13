@@ -19,9 +19,9 @@ public class KitchenGameManager : MonoBehaviour
     public event EventHandler OnGamePaused;
     public event EventHandler OnGameUnpaused;
 
-    private float _countdownToStartTimer = 3f;
+    private float _countdownToStartTimer = 1f;
     private float _gamePlayingTimer;
-    private float _gamePlayingTimerMax = 60f;
+    private float _gamePlayingTimerMax = 300f;
     private bool _isGamePaused = false;
 
     private void Awake()
@@ -38,6 +38,10 @@ public class KitchenGameManager : MonoBehaviour
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
+
+        _state = State.CountdownToStart;
+
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void GameInput_OnInteractAction(object sender, EventArgs e)

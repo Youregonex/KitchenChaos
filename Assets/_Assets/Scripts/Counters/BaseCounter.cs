@@ -1,7 +1,8 @@
 using UnityEngine;
 using System;
+using Unity.Netcode;
 
-public class BaseCounter : MonoBehaviour, IKitchenObjectParent
+public class BaseCounter : NetworkBehaviour, IKitchenObjectParent
 {
     public static event EventHandler OnAnyObjectPlacedHere;
 
@@ -22,6 +23,11 @@ public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     public virtual void InteractAlternate(Player player)
     {
         //Debug.LogError("InteractAlternate on BaseCounter");
+    }
+
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
     }
 
     public void SetKitchenObject(KitchenObject kitchenObject)
