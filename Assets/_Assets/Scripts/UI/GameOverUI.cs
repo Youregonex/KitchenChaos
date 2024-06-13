@@ -1,13 +1,23 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using Unity.Netcode;
 
 public class GameOverUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _recipesDeliveredText;
+    [SerializeField] private Button _playAgainButton;
+
 
     private void Start()
     {
         KitchenGameManager.Instance.OnStateChanged += KitchenGameManager_OnStateChanged;
+        _playAgainButton.onClick.AddListener(() =>
+        {
+            NetworkManager.Singleton.Shutdown();
+
+            Loader.Load(Loader.Scene.MainMenuScene);
+        });
 
         Hide();
     }

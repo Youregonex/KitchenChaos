@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using System;
 
 public class KitchenGameMultiplayer : NetworkBehaviour
 {
@@ -13,6 +14,25 @@ public class KitchenGameMultiplayer : NetworkBehaviour
             Destroy(gameObject);
 
         Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void StartHost()
+    {
+        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
+        NetworkManager.Singleton.StartHost();   
+    }
+
+    private void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest connectionApprovalRequest,
+                                                           NetworkManager.ConnectionApprovalResponse connectionApprovalResponse)
+    {
+        connectionApprovalResponse.Approved = true;
+    }
+
+    public void StartClient()
+    {
+        NetworkManager.Singleton.StartClient();
     }
 
     public void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent kitchenObjectParent)
