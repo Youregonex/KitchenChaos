@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1545019110048246720, guid: 44ab19d113be4442ca597412213e5235,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 5926854831084204220, guid: 44ab19d113be4442ca597412213e5235,
         type: 3}
       propertyPath: _kitchenObjectSO

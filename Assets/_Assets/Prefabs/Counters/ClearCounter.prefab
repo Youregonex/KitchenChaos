@@ -158,6 +158,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -700168162189323770, guid: e39c9d6538fc745e597c4c422b58923a,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 4038664310858879569, guid: e39c9d6538fc745e597c4c422b58923a,
         type: 3}
       propertyPath: m_Name
@@ -254,8 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655cd35f0a9c042539cef25c215343aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _kitchenObjectSO: {fileID: 11400000, guid: 29079841b45b54cb0a86bccd1975c7cc, type: 2}
   _counterTopPoint: {fileID: 7315944001682476622}
+  _kitchenObjectSO: {fileID: 11400000, guid: 29079841b45b54cb0a86bccd1975c7cc, type: 2}
 --- !u!4 &7315944001682476622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6949344789162147226, guid: e39c9d6538fc745e597c4c422b58923a,

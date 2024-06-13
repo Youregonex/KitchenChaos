@@ -22,12 +22,7 @@ public class BaseCounter : NetworkBehaviour, IKitchenObjectParent
 
     public virtual void InteractAlternate(Player player)
     {
-        //Debug.LogError("InteractAlternate on BaseCounter");
-    }
-
-    public NetworkObject GetNetworkObject()
-    {
-        return NetworkObject;
+        
     }
 
     public void SetKitchenObject(KitchenObject kitchenObject)
@@ -43,6 +38,11 @@ public class BaseCounter : NetworkBehaviour, IKitchenObjectParent
     public void ClearKitchenObject()
     {
         _kitchenObject = null;
+    }
+
+    public NetworkObject GetNetworkObject()
+    {
+        return NetworkObject;
     }
 
     public bool HasKitchenObject() => _kitchenObject != null ? true : false;
