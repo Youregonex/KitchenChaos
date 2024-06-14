@@ -8,7 +8,7 @@ public class KitchenGameMultiplayer : NetworkBehaviour
 {
     public static KitchenGameMultiplayer Instance { get; private set; }
 
-    private const int MAX_PLAYER_AMOUNT = 4;
+    public const int MAX_PLAYER_AMOUNT = 4;
 
     [SerializeField] private KitchenObjectListSO _kitchenObjectListSO;
     [SerializeField] private List<Color> _playerColorList;
