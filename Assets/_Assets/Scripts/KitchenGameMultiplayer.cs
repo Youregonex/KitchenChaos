@@ -41,14 +41,29 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
         NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
         NetworkManager.Singleton.StartHost();   
     }
 
-    private void NetworkManager_OnClientConnectedCallback(ulong clientID)
+    private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
+    {
+        for(int i = 0; i < _playerDataNetworkList.Count; i++)
+        {
+            PlayerData playerData = _playerDataNetworkList[i];
+
+            if(playerData.clientId == clientId)
+            {
+                _playerDataNetworkList.RemoveAt(i);
+            }
+        }
+    }
+
+    private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
         _playerDataNetworkList.Add(new PlayerData
         {
-            clientId = clientID,
+            clientId = clientId,
             colorId = GetFirstUnusedColorId()
         });
     }
@@ -77,12 +92,12 @@ public class KitchenGameMultiplayer : NetworkBehaviour
     {
         OnTryingToJoinGame?.Invoke(this, EventArgs.Empty);
 
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
 
         NetworkManager.Singleton.StartClient();
     }
 
-    private void NetworkManager_OnClientDisconnectCallback(ulong clientID)
+    private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
         OnFailToJoinGame?.Invoke(this, EventArgs.Empty);
     }
@@ -234,7 +249,13 @@ public class KitchenGameMultiplayer : NetworkBehaviour
         return -1;
     }
 
-    public Color GetPlayerColor(int colorID) => _playerColorList[colorID];
+    public Color GetPlayerColor(int colorId) => _playerColorList[colorId];
 
     public PlayerData GetPlayerDataFromPlayerIndex(int playerIndex) => _playerDataNetworkList[playerIndex];
+
+    public void KickPlayer(ulong clientId)
+    {
+        NetworkManager.Singleton.DisconnectClient(clientId);
+        NetworkManager_Server_OnClientDisconnectCallback(clientId);
+    }
 }
